@@ -28,9 +28,13 @@
         </div>
         <div id="fight-section">
             <h2>Fight Section</h2>
+            <button id="attack">Attack</button>
         </div>
         <div id="defender-section">
             <h2>Defender</h2>
+            <div id="defender-text">
+
+            </div>
         </div>
 
     </div>
@@ -43,38 +47,130 @@
     </footer>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/game.js"></script>
+    <script src="assets/js/game.js"></script>
     <script>
         $(document).ready(function () {
 
             const characters = [{
                     name: "Obi Wan",
                     image: "",
-                    power: 120
+                    healthPoints: 120,
+                    attackPower: 8,
+                    counterAttackPower: 7
                 },
                 {
                     name: "Luke Skywalker",
                     image: "",
-                    power: 100
+                    healthPoints: 100,
+                    attackPower: 10,
+                    counterAttackPower: 5
                 },
                 {
                     name: "Darth Sidious",
                     image: "",
-                    power: 150
+                    healthPoints: 150,
+                    attackPower: 7,
+                    counterAttackPower: 20
                 },
                 {
                     name: "Darth Maul",
                     image: "",
-                    power: 180
+                    healthPoints: 180,
+                    attackPower: 4,
+                    counterAttackPower: 25
                 },
             ];
 
-            let myCharacterIndex = -1;
-            let myDefenderIndex = -1;
+
+            //let myCharacterIndex = -1;
+            //let myDefenderIndex = -1;
+            let game = {
+                myCharacterIndex: -1,
+                myDefenderIndex: -1,
+                attackerHP: 0,
+                defenderHP: 0,
+                attackNumber: 0,
+                doAttack: function () {
+                    if (this.attackerHP == 0 && this.defenderHP == 0) {
+                        this.attackerHP = characters[this.myCharacterIndex].healthPoints;
+                        this.defenderHP = characters[this.myDefenderIndex].healthPoints;
+                    } else if (this.attackerHP <= 0 || this.defenderHP <= 0) {
+                        if(this.attackerHP > this.defenderHP){
+                            //you win
+                        } else{
+                            //you lose
+                        }
+                    } else {
+                        this.attackNumber++;
+                        console.log(this);
+                        //attack 
+                        this.attackerHP -= characters[this.myDefenderIndex].counterAttackPower;
+                        console.log(this.attackerHP);
+                        //defender hp
+                        this.defenderHP -= characters[this.myCharacterIndex].attackPower * this
+                            .attackNumber;
+                        console.log(this.defenderHP);
+                    }
+
+                }
+            };
+
+            function renderCharacter(index, hp, divClass) {
+                var newChar = $("<div>").text(characters[index].name).attr({
+                    "char-index": index,
+                    "class": divClass
+                });
+                newChar.append($("<div>").text(hp));
+                return newChar
+            }
 
             function startGame() {
-                $("#characters").
-            }
+                characters.forEach(function (character, index) {
+                    $("#characters").append(renderCharacter(index, characters[index].healthPoints,
+                        "select-char"));
+                });
+            };
+
+            //bind on click to the new select char 
+            $(document).on("click", ".select-char", function () {
+                game.myCharacterIndex = $(this).attr("char-index");
+                characters.forEach(function (character, index) {
+                    if (index == game.myCharacterIndex) {
+                        $("#your-character").append(renderCharacter(index, characters[index]
+                            .healthPoints, "selected-char"));
+                    } else {
+                        $("#enemies-available").append(renderCharacter(index, characters[index]
+                            .healthPoints, "enemy-char"));
+                    }
+
+                });
+                $(".select-char").remove();
+            });
+            $(document).on("click", ".enemy-char", function () {
+                if (game.myDefenderIndex == -1) {
+                    game.myDefenderIndex = $(this).attr("char-index");
+                    var newDefender = $("<div>").text(characters[game.myDefenderIndex].name).attr({
+                        "char-index": game.myDefenderIndex,
+                        "class": "defender-char"
+                    });
+                    newDefender.append($("<div>").text(characters[game.myDefenderIndex].healthPoints));
+                    $("#defender-section").append(newDefender);
+                    $(this).remove();
+                }
+
+            });
+            $("#attack").on("click", function () {
+                if (game.myDefenderIndex != -1 && game.myCharacterIndex != -1) {
+                    game.doAttack();
+                } else if (game.myCharacterIndex != -1) {
+                    //select a new character
+                } else if (game.myDefenderIndex != -1) {
+                    //select a defender
+                }
+            });
+
+
+            startGame();
         });
     </script>
 </body>
