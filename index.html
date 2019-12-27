@@ -32,9 +32,7 @@
         </div>
         <div id="defender-section">
             <h2>Defender</h2>
-            <div id="defender-text">
-
-            </div>
+            <div id="defender-text"></div>
         </div>
 
     </div>
@@ -82,6 +80,18 @@
             ];
 
 
+            function renderCharacter(index, hp, divClass) {
+                var newChar = $("<div>").text(characters[index].name).attr({
+                    "char-index": index,
+                    "class": divClass
+                });
+                newChar.append($("<div>").text(hp));
+                return newChar
+            }
+
+            function removeCharacter(index) {
+
+            }
             //let myCharacterIndex = -1;
             //let myDefenderIndex = -1;
             let game = {
@@ -94,35 +104,36 @@
                     if (this.attackerHP == 0 && this.defenderHP == 0) {
                         this.attackerHP = characters[this.myCharacterIndex].healthPoints;
                         this.defenderHP = characters[this.myDefenderIndex].healthPoints;
-                    } else if (this.attackerHP <= 0 || this.defenderHP <= 0) {
-                        if(this.attackerHP > this.defenderHP){
+                    }
+                    if (this.attackerHP <= 0 || this.defenderHP <= 0) {
+                        if (this.attackerHP > this.defenderHP) {
                             //you win
-                        } else{
+                        } else {
                             //you lose
                         }
                     } else {
                         this.attackNumber++;
                         console.log(this);
                         //attack 
+                        var attackValue = characters[this.myCharacterIndex].attackPower * this
+                            .attackNumber;
+                        var defendValue = characters[this.myDefenderIndex].counterAttackPower;
                         this.attackerHP -= characters[this.myDefenderIndex].counterAttackPower;
                         console.log(this.attackerHP);
                         //defender hp
                         this.defenderHP -= characters[this.myCharacterIndex].attackPower * this
                             .attackNumber;
                         console.log(this.defenderHP);
+                        var attackText = "You attacked " + characters[this.myDefenderIndex].name +
+                            " for " +
+                            attackValue + "damage."
+                        var defendText = characters[this.myDefenderIndex].name + " attacked you for " +
+                            defendValue + " damage.";
+                        $("#defender-text").text(attackText + defendText);
                     }
-
                 }
             };
 
-            function renderCharacter(index, hp, divClass) {
-                var newChar = $("<div>").text(characters[index].name).attr({
-                    "char-index": index,
-                    "class": divClass
-                });
-                newChar.append($("<div>").text(hp));
-                return newChar
-            }
 
             function startGame() {
                 characters.forEach(function (character, index) {
