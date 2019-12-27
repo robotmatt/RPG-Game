@@ -83,23 +83,27 @@
             function renderCharacter(index, hp, divClass) {
                 var newChar = $("<div>").text(characters[index].name).attr({
                     "char-index": index,
-                    "class": divClass
+                    "class": divClass,
+                    "id": "char"+index
                 });
-                newChar.append($("<div>").text(hp));
+                newChar.append($("<div>").text(hp).attr({"class": "score"}));
                 return newChar
             }
 
+            // Function: remove a character from the game and screen
+            // index: index of character to remove
             function removeCharacter(index) {
-
+                $('#char'+index).remove();
             }
-            //let myCharacterIndex = -1;
-            //let myDefenderIndex = -1;
+
             let game = {
                 myCharacterIndex: -1,
                 myDefenderIndex: -1,
                 attackerHP: 0,
                 defenderHP: 0,
                 attackNumber: 0,
+
+                // Function: main attack 
                 doAttack: function () {
                     if (this.attackerHP == 0 && this.defenderHP == 0) {
                         this.attackerHP = characters[this.myCharacterIndex].healthPoints;
@@ -130,11 +134,12 @@
                         var defendText = characters[this.myDefenderIndex].name + " attacked you for " +
                             defendValue + " damage.";
                         $("#defender-text").text(attackText + defendText);
+
                     }
                 }
             };
 
-
+            //Function: start a new game
             function startGame() {
                 characters.forEach(function (character, index) {
                     $("#characters").append(renderCharacter(index, characters[index].healthPoints,
@@ -157,6 +162,7 @@
                 });
                 $(".select-char").remove();
             });
+
             $(document).on("click", ".enemy-char", function () {
                 if (game.myDefenderIndex == -1) {
                     game.myDefenderIndex = $(this).attr("char-index");
@@ -170,6 +176,7 @@
                 }
 
             });
+
             $("#attack").on("click", function () {
                 if (game.myDefenderIndex != -1 && game.myCharacterIndex != -1) {
                     game.doAttack();
