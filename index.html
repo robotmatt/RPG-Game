@@ -49,6 +49,7 @@
     <script>
         $(document).ready(function () {
 
+            // variable: list of characters in the game
             const characters = [{
                     name: "Obi Wan",
                     image: "",
@@ -79,7 +80,10 @@
                 },
             ];
 
-
+            // Function: renders a character on the page
+            // index: index of the character in the character array
+            // hp: current hp of the character
+            // divClass: class of the new div to create
             function renderCharacter(index, hp, divClass) {
                 var newChar = $("<div>").text(characters[index].name).attr({
                     "char-index": index,
@@ -96,6 +100,7 @@
                 $('#char'+index).remove();
             }
 
+            // Variable: Attributes for the current game, will reset when startGame() is called
             let game = {
                 myCharacterIndex: -1,
                 myDefenderIndex: -1,
@@ -141,13 +146,21 @@
 
             //Function: start a new game
             function startGame() {
+                // Reset the game variable
+                game.myCharacterIndex = -1;
+                game.myDefenderIndex = -1;
+                game.attackerHP = 0;
+                game.defenderHP = 0;
+                game.attackNumber = 0;
+
+                // Display the characters on the page
                 characters.forEach(function (character, index) {
                     $("#characters").append(renderCharacter(index, characters[index].healthPoints,
                         "select-char"));
                 });
             };
 
-            //bind on click to the new select char 
+            // Bind on click for selecting the character you want to play
             $(document).on("click", ".select-char", function () {
                 game.myCharacterIndex = $(this).attr("char-index");
                 characters.forEach(function (character, index) {
@@ -163,6 +176,7 @@
                 $(".select-char").remove();
             });
 
+            // Bind on click for selecting the character you want to attack
             $(document).on("click", ".enemy-char", function () {
                 if (game.myDefenderIndex == -1) {
                     game.myDefenderIndex = $(this).attr("char-index");
@@ -177,6 +191,7 @@
 
             });
 
+            // Bind on click to the attack button
             $("#attack").on("click", function () {
                 if (game.myDefenderIndex != -1 && game.myCharacterIndex != -1) {
                     game.doAttack();
