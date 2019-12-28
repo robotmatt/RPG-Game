@@ -88,16 +88,18 @@
                 var newChar = $("<div>").text(characters[index].name).attr({
                     "char-index": index,
                     "class": divClass,
-                    "id": "char"+index
+                    "id": "char" + index
                 });
-                newChar.append($("<div>").text(hp).attr({"class": "hp-label"}));
+                newChar.append($("<div>").text(hp).attr({
+                    "class": "hp-label"
+                }));
                 return newChar;
             }
 
             // Function: remove a character from the game and screen
             // index: index of character to remove
             function removeCharacter(index) {
-                $('#char'+index).remove();
+                $('#char' + index).remove();
             }
 
             // Variable: Attributes for the current game, will reset when startGame() is called
@@ -119,10 +121,11 @@
 
                     // If both attackerHP and defenderHP are <= 0, then somebody won or lost!
                     if (this.attackerHP <= 0 || this.defenderHP <= 0) {
-                        if (this.attackerHP > this.defenderHP) { // You win the attack, on to the next character
-                            
+                        if (this.attackerHP > this
+                            .defenderHP) { // You win the attack, on to the next character
+
                         } else { // You lose the game, so sorry :(
-                            
+
                         }
                     } else { // Otherwise do the attack!
                         this.attackNumber++;
@@ -144,6 +147,13 @@
                             defendValue + " damage.";
                         $("#defender-text").text(attackText + defendText);
 
+                        // Redisplay the characters with new HP values
+                        $("#char" + this.myDefenderIndex + ".defender-char").remove();
+                        $("#defender-section").append(renderCharacter(this.myDefenderIndex, this
+                            .defenderHP, "defender-char"));
+                        $("#char" + this.myCharacterIndex + ".selected-char").remove();
+                        $("#your-character").append(renderCharacter(this.myCharacterIndex, this
+                            .attackerHP, "selected-char"));
                     }
                 }
             };
@@ -184,7 +194,8 @@
             $(document).on("click", ".enemy-char", function () {
                 if (game.myDefenderIndex == -1) {
                     game.myDefenderIndex = $(this).attr("char-index");
-                    $("#defender-section").append(renderCharacter(game.myDefenderIndex, characters[game.myDefenderIndex].healthPoints,
+                    $("#defender-section").append(renderCharacter(game.myDefenderIndex, characters[game
+                            .myDefenderIndex].healthPoints,
                         "defender-char"));
                     $(this).remove();
                 }
