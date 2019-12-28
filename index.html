@@ -91,7 +91,7 @@
                     "id": "char"+index
                 });
                 newChar.append($("<div>").text(hp).attr({"class": "score"}));
-                return newChar
+                return newChar;
             }
 
             // Function: remove a character from the game and screen
@@ -180,12 +180,8 @@
             $(document).on("click", ".enemy-char", function () {
                 if (game.myDefenderIndex == -1) {
                     game.myDefenderIndex = $(this).attr("char-index");
-                    var newDefender = $("<div>").text(characters[game.myDefenderIndex].name).attr({
-                        "char-index": game.myDefenderIndex,
-                        "class": "defender-char"
-                    });
-                    newDefender.append($("<div>").text(characters[game.myDefenderIndex].healthPoints));
-                    $("#defender-section").append(newDefender);
+                    $("#defender-section").append(renderCharacter(game.myDefenderIndex, characters[game.myDefenderIndex].healthPoints,
+                        "defender-char"));
                     $(this).remove();
                 }
 
