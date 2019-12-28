@@ -90,7 +90,7 @@
                     "class": divClass,
                     "id": "char"+index
                 });
-                newChar.append($("<div>").text(hp).attr({"class": "score"}));
+                newChar.append($("<div>").text(hp).attr({"class": "hp-label"}));
                 return newChar;
             }
 
@@ -110,17 +110,21 @@
 
                 // Function: main attack 
                 doAttack: function () {
+                    // If attackerHP and defenderHP are 0, then it's a brand new game.
+                    // Set the variables based on the initial HP values then do the attack
                     if (this.attackerHP == 0 && this.defenderHP == 0) {
                         this.attackerHP = characters[this.myCharacterIndex].healthPoints;
                         this.defenderHP = characters[this.myDefenderIndex].healthPoints;
                     }
+
+                    // If both attackerHP and defenderHP are <= 0, then somebody won or lost!
                     if (this.attackerHP <= 0 || this.defenderHP <= 0) {
-                        if (this.attackerHP > this.defenderHP) {
-                            //you win
-                        } else {
-                            //you lose
+                        if (this.attackerHP > this.defenderHP) { // You win the attack, on to the next character
+                            
+                        } else { // You lose the game, so sorry :(
+                            
                         }
-                    } else {
+                    } else { // Otherwise do the attack!
                         this.attackNumber++;
                         console.log(this);
                         //attack 
