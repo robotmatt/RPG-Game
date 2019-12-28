@@ -34,6 +34,9 @@
             <h2>Defender</h2>
             <div id="defender-text"></div>
         </div>
+        <div id="result">
+
+        </div>
 
     </div>
 
@@ -125,7 +128,10 @@
                             .defenderHP) { // You win the attack, on to the next character
 
                         } else { // You lose the game, so sorry :(
-
+                            $("#result").text("You lose the game, click to replay!").append($(
+                                "<button>").attr({
+                                "class": "reload"
+                            }).html("Refresh Page"));
                         }
                     } else { // Otherwise do the attack!
                         this.attackNumber++;
@@ -211,6 +217,11 @@
                 } else if (game.myDefenderIndex != -1) {
                     //select a defender
                 }
+            });
+
+            //
+            $(document).on("click", ".reload", function () {
+                location.reload(true);
             });
 
 
