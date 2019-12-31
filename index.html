@@ -54,7 +54,7 @@
     <script>
         $(document).ready(function () {
 
-            // variable: list of characters in the game
+            // Variable: list of characters in the game
             const characters = [{
                     name: "Obi Wan",
                     image: "./assets/img/obi_wan.png",
@@ -90,17 +90,20 @@
             // hp: current hp of the character
             // divClass: class of the new div to create
             function renderCharacter(index, hp, divClass) {
+                //create a new div to hold the character
                 var newChar = $("<div>").text(characters[index].name).attr({
                     "char-index": index,
                     "class": divClass + " character",
                     "id": "char" + index
                 });
+                //add the image to the div
                 newChar.append($("<img>").attr({
                     "class": "char-image",
                     "src": characters[index].image,
                     "height": "100px",
                     "width": "100px"
                 }));
+                //add the hp text
                 newChar.append($("<div>").text(hp).attr({
                     "class": "hp-label"
                 }));
@@ -124,16 +127,25 @@
                 // Function: main attack 
                 doAttack: function () {
                     // If attackerHP and defenderHP are 0, then it's a brand new game.
-                    // Set the variables based on the initial HP values then do the attack
+                    // return null since it's invalid
                     if (this.attackerHP == 0 && this.defenderHP == 0) {
-                        this.attackerHP = characters[this.myCharacterIndex].healthPoints;
-                        this.defenderHP = characters[this.myDefenderIndex].healthPoints;
+                        return null; 
                     }
 
                     // If both attackerHP and defenderHP are <= 0, then somebody won or lost!
                     if (this.attackerHP <= 0 || this.defenderHP <= 0) {
                         if (this.attackerHP > this
                             .defenderHP) { // You win the attack, on to the next character
+                            //remove the defender
+
+                            $("#result").text("You have defeated");
+                            $(".defender-char").remove();
+                            $("#attacker-text").text("");
+                            $("#defender-text").text("");
+
+                            //set defenderindex to -1 to reset the defenders
+                            this.myDefenderIndex = -1;
+                            this.attackerHP = characters[this.myCharacterIndex].healthPoints;
 
                         } else { // You lose the game, so sorry :(
                             $("#result").text("You lose the game, click to replay!").append($(
@@ -202,17 +214,25 @@
                     }
 
                 });
+
+                game.attackerHP = characters[game.myCharacterIndex].healthPoints;
                 $(".select-char").remove();
             });
 
             // Bind on click for selecting the character you want to attack
             $(document).on("click", ".enemy-char", function () {
                 if (game.myDefenderIndex == -1) {
+                    //make sure result text is blank
+                    $("#result").text("");
+
                     game.myDefenderIndex = $(this).attr("char-index");
                     $("#defender-section").append(renderCharacter(game.myDefenderIndex, characters[game
                             .myDefenderIndex].healthPoints,
                         "defender-char"));
                     $(this).remove();
+
+                    //set HP
+                    game.defenderHP = characters[game.myDefenderIndex].healthPoints;
                 }
 
             });
