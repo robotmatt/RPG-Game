@@ -20,6 +20,7 @@
         <div id="characters">
 
         </div>
+        <div class="push"></div>
         <div id="your-character">
             <h2>Your Character</h2>
         </div>
@@ -90,7 +91,7 @@
             function renderCharacter(index, hp, divClass) {
                 var newChar = $("<div>").text(characters[index].name).attr({
                     "char-index": index,
-                    "class": divClass,
+                    "class": divClass + " character",
                     "id": "char" + index
                 });
                 newChar.append($("<img>").attr({

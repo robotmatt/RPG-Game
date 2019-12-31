@@ -8,3 +8,21 @@ h1{
     padding: 0 400px;
     text-transform: uppercase;
 }
+.character{
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+    border: solid black 2px;
+    text-align: center;
+    margin: 10px;
+    background-color: white;
+    color: black;
+}
+.char-image{
+    padding: 4px;
+}
+.push{
+    position: absolute;
+    display: inline-block;
+    height: 10px;
+}
