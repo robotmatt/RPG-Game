@@ -1,14 +1,17 @@
-body {
+body{
+    margin: 0;
     background: lightblue url("../img/background.jpg") center/100%;
     color: white;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-
-h1{
+h1 {
     text-align: left;
     padding: 0 400px;
     text-transform: uppercase;
 }
-.character{
+
+.character {
     display: inline-block;
     height: 150px;
     width: 150px;
@@ -18,10 +21,12 @@ h1{
     background-color: white;
     color: black;
 }
-.char-image{
+
+.char-image {
     padding: 4px;
 }
-.push{
+
+.push {
     position: absolute;
     display: inline-block;
     height: 10px;
