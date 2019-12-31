@@ -55,28 +55,28 @@
             // variable: list of characters in the game
             const characters = [{
                     name: "Obi Wan",
-                    image: "",
+                    image: "./assets/img/obi_wan.png",
                     healthPoints: 120,
                     attackPower: 8,
                     counterAttackPower: 7
                 },
                 {
                     name: "Luke Skywalker",
-                    image: "",
+                    image: "./assets/img/luke_skywalker.png",
                     healthPoints: 100,
                     attackPower: 10,
                     counterAttackPower: 5
                 },
                 {
                     name: "Darth Sidious",
-                    image: "",
+                    image: "./assets/img/darth_sidious.png",
                     healthPoints: 150,
                     attackPower: 7,
                     counterAttackPower: 20
                 },
                 {
                     name: "Darth Maul",
-                    image: "",
+                    image: "./assets/img/darth_maul.png",
                     healthPoints: 180,
                     attackPower: 4,
                     counterAttackPower: 25
@@ -95,7 +95,9 @@
                 });
                 newChar.append($("<img>").attr({
                     "class": "char-image",
-                    "src": characters[index].image
+                    "src": characters[index].image,
+                    "height": "100px",
+                    "width": "100px"
                 }));
                 newChar.append($("<div>").text(hp).attr({
                     "class": "hp-label"
