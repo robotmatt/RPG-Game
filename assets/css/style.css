@@ -31,3 +31,11 @@ h1 {
     display: inline-block;
     height: 10px;
 }
+#enemies-available .character{
+    background-color: red;
+    color: white;
+}
+#defender-section .character{
+    background-color: black;
+    color: white;
+}
