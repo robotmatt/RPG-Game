@@ -93,6 +93,10 @@
                     "class": divClass,
                     "id": "char" + index
                 });
+                newChar.append($("<img>").attr({
+                    "class": "char-image",
+                    "src": characters[index].image
+                }));
                 newChar.append($("<div>").text(hp).attr({
                     "class": "hp-label"
                 }));

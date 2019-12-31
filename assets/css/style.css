@@ -1,4 +1,10 @@
 body {
     background: lightblue url("../img/background.jpg") center/100%;
     color: white;
-  }
+}
+
+h1{
+    text-align: left;
+    padding: 0 400px;
+    text-transform: uppercase;
+}
