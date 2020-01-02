@@ -131,9 +131,10 @@
                         if (this.attackerHP > this
                             .defenderHP) { // You win the attack, on to the next character
 
+                            // increment the win count
                             this.winCount++;
 
-                            //remove the defender
+                            //remove the defender from the page and remove the text
                             $("#result").text("You have defeated " + characters[this.myDefenderIndex]
                                 .name + "! You can choose to fight another enemy.");
                             $(".defender-char").remove();
@@ -146,14 +147,11 @@
                                         "<button>").attr({
                                         "class": "reload"
                                     }).html("Refresh Page"));
-
                                 return false;
                             } else {
                                 //set defenderindex to -1 to reset the defenders
                                 this.myDefenderIndex = -1;
                                 this.attackerHP = characters[this.myCharacterIndex].healthPoints;
-
-
                                 return true;
                             }
 
@@ -187,7 +185,8 @@
                     } else { // Otherwise do the attack!
                         this.attackNumber++;
                         console.log(this);
-                        //attack 
+
+                        // Attack!
                         var attackValue = characters[this.myCharacterIndex].attackPower * this
                             .attackNumber;
                         var defendValue = characters[this.myDefenderIndex].counterAttackPower;
@@ -279,7 +278,7 @@
 
             // Bind on click to the attack button
             $("#attack").on("click", function () {
-                if (game.myDefenderIndex != -1 && game.myCharacterIndex != -1) {
+                if (game.myDefenderIndex != -1 && game.myCharacterIndex != -1 && game.winCount < 3) {
                     game.doAttack();
                 } else if (game.myCharacterIndex != -1) {
                     //select a new character
