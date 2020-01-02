@@ -19,7 +19,7 @@ $(document).ready(function () {
         name: "Darth Sidious",
         image: "./assets/img/darth_sidious.png",
         healthPoints: 150,
-        attackPower: 7,
+        attackPower: 6,
         counterAttackPower: 30
     },
     {
@@ -103,11 +103,12 @@ $(document).ready(function () {
 
 
                 } else { // You lose the game, so sorry :(
-                    //remove the attack text
+                    // Remove the attack text
 
                     $("#attacker-text").text("");
                     $("#defender-text").text("");
 
+                    // Add the result text and button to enable page refresh
                     $("#result").text("You lose the game, click to replay!").append($(
                         "<button>").attr({
                             "class": "reload"
@@ -138,14 +139,17 @@ $(document).ready(function () {
                 var defendValue = characters[this.myDefenderIndex].counterAttackPower;
                 this.attackerHP -= characters[this.myDefenderIndex].counterAttackPower;
                 console.log(this.attackerHP);
+
                 //defender hp
                 this.defenderHP -= characters[this.myCharacterIndex].attackPower * this
                     .attackNumber;
                 console.log(this.defenderHP);
+
+                // Print out the attack and defend text
                 var attackText = "You attacked " + characters[this.myDefenderIndex]
                     .name +
                     " for " +
-                    attackValue + " damage."
+                    attackValue + " damage.";
                 var defendText = characters[this.myDefenderIndex].name +
                     " attacked you for " +
                     defendValue + " damage.";
@@ -160,7 +164,7 @@ $(document).ready(function () {
                 $("#your-character").append(renderCharacter(this.myCharacterIndex, this
                     .attackerHP, "selected-char"));
 
-                // check win again after the attack
+                // Check win again after the attack
                 this.checkWin();
             }
         }
