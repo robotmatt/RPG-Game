@@ -123,24 +123,40 @@
                 attackerHP: 0,
                 defenderHP: 0,
                 attackNumber: 0,
+                winCount: 0,
 
                 checkWin: function () {
                     // If both attackerHP and defenderHP are <= 0, then somebody won or lost!
                     if (this.attackerHP <= 0 || this.defenderHP <= 0) {
                         if (this.attackerHP > this
                             .defenderHP) { // You win the attack, on to the next character
-                            //remove the defender
 
-                            $("#result").text("You have defeated " + characters[this.myDefenderIndex].name + "! You can choose to fight another enemy.");
+                            this.winCount++;
+                            
+                            //remove the defender
+                            $("#result").text("You have defeated " + characters[this.myDefenderIndex]
+                                .name + "! You can choose to fight another enemy.");
                             $(".defender-char").remove();
                             $("#attacker-text").text("");
                             $("#defender-text").text("");
 
-                            //set defenderindex to -1 to reset the defenders
-                            this.myDefenderIndex = -1;
-                            this.attackerHP = characters[this.myCharacterIndex].healthPoints;
+                            if (this.winCount == 3) {
+                                $("#result").text("You win the game! Congrats! Click to replay! ")
+                                    .append($(
+                                        "<button>").attr({
+                                        "class": "reload"
+                                    }).html("Refresh Page"));
 
-                            return true;
+                                return false;
+                            } else {
+                                //set defenderindex to -1 to reset the defenders
+                                this.myDefenderIndex = -1;
+                                this.attackerHP = characters[this.myCharacterIndex].healthPoints;
+
+
+                                return true;
+                            }
+
 
                         } else { // You lose the game, so sorry :(
                             $("#result").text("You lose the game, click to replay!").append($(
@@ -208,6 +224,7 @@
                 game.attackerHP = 0;
                 game.defenderHP = 0;
                 game.attackNumber = 0;
+                game.winCount = 0;
 
                 // Display the characters on the page
                 characters.forEach(function (character, index) {
