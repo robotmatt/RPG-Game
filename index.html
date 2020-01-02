@@ -124,14 +124,7 @@
                 defenderHP: 0,
                 attackNumber: 0,
 
-                // Function: main attack 
-                doAttack: function () {
-                    // If attackerHP and defenderHP are 0, then it's a brand new game.
-                    // return null since it's invalid
-                    if (this.attackerHP == 0 && this.defenderHP == 0) {
-                        return null; 
-                    }
-
+                checkWin: function () {
                     // If both attackerHP and defenderHP are <= 0, then somebody won or lost!
                     if (this.attackerHP <= 0 || this.defenderHP <= 0) {
                         if (this.attackerHP > this
@@ -147,12 +140,29 @@
                             this.myDefenderIndex = -1;
                             this.attackerHP = characters[this.myCharacterIndex].healthPoints;
 
+                            return true;
+
                         } else { // You lose the game, so sorry :(
                             $("#result").text("You lose the game, click to replay!").append($(
                                 "<button>").attr({
                                 "class": "reload"
                             }).html("Refresh Page"));
+
+                            return false;
                         }
+                    }
+                },
+
+                // Function: main attack 
+                doAttack: function () {
+                    // If attackerHP and defenderHP are 0, then it's a brand new game.
+                    // return null since it's invalid
+                    if (this.attackerHP == 0 && this.defenderHP == 0) {
+                        return null;
+                    }
+                    // Check for a win condition. Shouldn't ever hit this but just in case!
+                    if (this.checkWin()) {
+                        return true;
                     } else { // Otherwise do the attack!
                         this.attackNumber++;
                         console.log(this);
@@ -166,10 +176,12 @@
                         this.defenderHP -= characters[this.myCharacterIndex].attackPower * this
                             .attackNumber;
                         console.log(this.defenderHP);
-                        var attackText = "You attacked " + characters[this.myDefenderIndex].name +
+                        var attackText = "You attacked " + characters[this.myDefenderIndex]
+                            .name +
                             " for " +
                             attackValue + " damage."
-                        var defendText = characters[this.myDefenderIndex].name + " attacked you for " +
+                        var defendText = characters[this.myDefenderIndex].name +
+                            " attacked you for " +
                             defendValue + " damage.";
                         $("#attacker-text").text(attackText);
                         $("#defender-text").text(defendText);
@@ -181,6 +193,9 @@
                         $("#char" + this.myCharacterIndex + ".selected-char").remove();
                         $("#your-character").append(renderCharacter(this.myCharacterIndex, this
                             .attackerHP, "selected-char"));
+
+                        // check win again after the attack
+                        this.checkWin();
                     }
                 }
             };
@@ -196,7 +211,8 @@
 
                 // Display the characters on the page
                 characters.forEach(function (character, index) {
-                    $("#characters").append(renderCharacter(index, characters[index].healthPoints,
+                    $("#characters").append(renderCharacter(index, characters[index]
+                        .healthPoints,
                         "select-char"));
                 });
             };
@@ -209,7 +225,8 @@
                         $("#your-character").append(renderCharacter(index, characters[index]
                             .healthPoints, "selected-char"));
                     } else {
-                        $("#enemies-available").append(renderCharacter(index, characters[index]
+                        $("#enemies-available").append(renderCharacter(index, characters[
+                                index]
                             .healthPoints, "enemy-char"));
                     }
 
@@ -226,7 +243,8 @@
                     $("#result").text("");
 
                     game.myDefenderIndex = $(this).attr("char-index");
-                    $("#defender-section").append(renderCharacter(game.myDefenderIndex, characters[game
+                    $("#defender-section").append(renderCharacter(game.myDefenderIndex, characters[
+                            game
                             .myDefenderIndex].healthPoints,
                         "defender-char"));
                     $(this).remove();
