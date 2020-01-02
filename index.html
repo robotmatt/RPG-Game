@@ -132,7 +132,7 @@
                             .defenderHP) { // You win the attack, on to the next character
 
                             this.winCount++;
-                            
+
                             //remove the defender
                             $("#result").text("You have defeated " + characters[this.myDefenderIndex]
                                 .name + "! You can choose to fight another enemy.");
@@ -159,12 +159,17 @@
 
 
                         } else { // You lose the game, so sorry :(
+                            //remove the attack text
+
+                            $("#attacker-text").text("");
+                            $("#defender-text").text("");
+
                             $("#result").text("You lose the game, click to replay!").append($(
                                 "<button>").attr({
                                 "class": "reload"
                             }).html("Refresh Page"));
 
-                            return false;
+                            return true;
                         }
                     }
                 },
@@ -178,7 +183,7 @@
                     }
                     // Check for a win condition. Shouldn't ever hit this but just in case!
                     if (this.checkWin()) {
-                        return true;
+                        return false;
                     } else { // Otherwise do the attack!
                         this.attackNumber++;
                         console.log(this);
