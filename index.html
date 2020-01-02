@@ -131,7 +131,7 @@
                             .defenderHP) { // You win the attack, on to the next character
                             //remove the defender
 
-                            $("#result").text("You have defeated");
+                            $("#result").text("You have defeated " + characters[this.myDefenderIndex].name + "! You can choose to fight another enemy.");
                             $(".defender-char").remove();
                             $("#attacker-text").text("");
                             $("#defender-text").text("");
