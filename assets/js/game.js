@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     // Variable: list of characters in the game
-    const characters = [{
+    let characters = [{
         name: "Obi Wan",
         image: "./assets/img/obi_wan.png",
         healthPoints: 120,
@@ -179,6 +179,12 @@ $(document).ready(function () {
         game.defenderHP = 0;
         game.attackNumber = 0;
         game.winCount = 0;
+    
+        // Randomize the attack and defend values for each character
+        characters.forEach(function (element, index, arr){
+            arr[index].attackPower = Math.floor(Math.random() * 25) + 1;
+            arr[index].counterAttackPower = Math.floor(Math.random() * 25) + 1;;
+        })
 
         // Display the characters on the page
         characters.forEach(function (character, index) {
